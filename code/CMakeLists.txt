@@ -33,7 +33,6 @@ set(utility
     ./utility/ALDeleter.hpp
     ./utility/utils.cpp
     ./utility/utils.hpp
-    # ${3RD_PARTY_DIR}/lua_main.hpp
 )
 
 add_executable(${TARGET_NAME}
