@@ -1,23 +1,27 @@
 /*# This file is part of the
-# ██████╗ ██╗  ██╗██╗     ██╗    ██╗ ██████╗ ██╗     ███████╗
-# ██╔══██╗╚██╗██╔╝██║     ██║    ██║██╔═══██╗██║     ██╔════╝
-# ██████╔╝ ╚███╔╝ ██║     ██║ █╗ ██║██║   ██║██║     █████╗
-# ██╔═══╝  ██╔██╗ ██║     ██║███╗██║██║   ██║██║     ██╔══╝
-# ██║     ██╔╝ ██╗███████╗╚███╔███╔╝╚██████╔╝███████╗██║
-# ╚═╝     ╚═╝  ╚═╝╚══════╝ ╚══╝╚══╝  ╚═════╝ ╚══════╝╚═╝
+#  _____ _     _          _                 _ 
+# |  _  | |   | |        | |               | |
+# | | | | | __| |___  ___| |__   ___   ___ | |
+# | | | | |/ _` / __|/ __| '_ \ / _ \ / _ \| |
+# \ \_/ / | (_| \__ \ (__| | | | (_) | (_) | |
+#  \___/|_|\__,_|___/\___|_| |_|\___/ \___/|_|
+#                                             
 #   project
 #
-#   https://github.com/jacmoe/pxlwolf
+#   https://github.com/jacmoe/oldschool
 #
-#   (c) 2020 - 2021 Jacob Moena
+#   (c) 2020 - 2022 Jacob Moena
 #
 #   MIT License
 #*/
 #include "main/Application.hpp"
 #include "Application.hpp"
+#include "Ark/VM/State.hpp"
+#include "Ark/VM/VM.hpp"
 
 #include <iostream>
 #include <fstream>
+#include <memory>
 #include <sstream>
 #include <stdexcept>
 #include <filesystem>
@@ -29,14 +33,14 @@ Application::Application()
     , m_height(0)
     , m_fullscreen(false)
     , m_show_map(false)
-    , m_title("")
-    , m_running(false)
     , m_show_fps(false)
-    , m_should_exit(false)
     , m_font_name("assets/fonts/MedievalSharp-Bold.ttf")
     , m_font_size(24)
     , m_font_size_title(32)
     , m_screenlock(nullptr)
+    , m_title("")
+    , m_running(false)
+    , m_should_exit(false)
 {}
 
 Application::~Application()
@@ -158,6 +162,8 @@ bool Application::init()
     m_pixelator = std::make_shared<Pixelator>();
 
     m_pixelator.get()->setSize(Vector2i(m_width, m_height));
+
+    m_script_state = std::make_shared<Ark::State>();
 
     SPDLOG_INFO("Oldschool initialized.");
     return true;
